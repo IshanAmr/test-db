@@ -1,13 +1,11 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
-const { initDB, closeDB } = require('./initDB');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 app.use(cors());
 
-initDB();
-const db = new sqlite3.Database('./database.sqlite');
+const db = new sqlite3.Database('./db/database.sqlite');
 
 const fetchAllArtworks = async () => {
     return new Promise((resolve, reject) => {
@@ -106,9 +104,4 @@ app.get('/artworks/medium/:medium', async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);
-});
-
-process.on('SIGINT', () => {
-  closeDB();
-  process.exit();
 });
